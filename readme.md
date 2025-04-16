@@ -36,3 +36,125 @@ You can install the required packages using pip:
 
 ```bash
 pip install biopython plotly lxml numpy pandas
+```
+
+# Installation
+Clone or Download: Get the source code from your repository or download the script file.
+
+Ensure Dependencies: Verify that all the required Python packages are installed.
+
+Configure Email: Update the Entrez.email variable in the script with your actual email address to ensure proper usage of NCBI Entrez.
+
+# Usage
+Run the script from the command line by specifying the required arguments. For example:
+```bash
+python bgc_toolkit.py -i /path/to/folder1 /path/to/folder2 -o ./output --html --svg --fasta --metadata my_metadata
+```
+
+# Command-Line Arguments
+-i, --inputfolders
+Type: One or more folder paths
+
+# Description: Folder(s) to search for GenBank (.gbk) files.
+
+-o, --outputfolder
+Type: Path
+
+Default: ./output
+# Description: Base folder where results (SVG, HTML, FASTA, metadata, etc.) will be stored.
+
+--svg
+Type: Flag
+Description: Enables SVG output for each individual BGC.
+
+--svgcfg
+Type: Path
+Default: SVG_arrow_options.cfg
+Description: Configuration file containing SVG style options.
+
+--genbank
+Type: Flag
+Description: Saves the GenBank files into the output folder.
+
+--metadata
+Type: String
+
+# Description: Base name for metadata files that summarize BGC information.
+
+--fasta
+Type: Flag
+Description: Saves protein sequences (with the CAL_domain) in FASTA format.
+
+--html
+Type: Flag
+Description: Generates an interactive HTML visualization of the BGCs.
+
+--svgall
+Type: Flag
+Description: Generates combined SVG images containing up to 10 BGCs each.
+
+# How It Works
+# Data Collection:
+
+The script scans the specified input folders for GenBank files. It parses each file using Biopython and extracts relevant data such as genome ID, species name, and BGC features (filtered by presence of CAL_domain).
+
+# Taxonomic Annotation:
+
+Using NCBI Entrez, the tool retrieves taxonomy details (e.g., phylum, order) for each BGC based on the organism’s genus.
+
+# Visualization & Output Generation:
+
+Interactive HTML: Uses Plotly to construct interactive visualizations of BGCs with detailed annotations.
+
+SVG Images: Generates scalable SVG graphics that display gene clusters and asDomain legends.
+
+Bar Charts: Creates stacked bar charts to show product counts by Phylum, Order, and Genus.
+
+Export Options: Optionally saves GenBank files, FASTA files for protein sequences, and metadata summaries.
+
+Color Mapping:
+Unique colors are automatically assigned to different domain descriptions. A fixed bright red color is reserved for AMP-binding proteins, while other colors are generated in the HSL color space to ensure visually distinct assignments.
+
+# Code Structure
+# Main Script:
+
+The main block uses an argument parser (argparse) to handle command-line inputs. It then calls a series of functions to process the files and generate outputs.
+
+Placeholder Classes:
+The script includes placeholder classes for BGC and BGCCollection. If you have the BGClib module, replace these placeholders with the actual implementations.
+
+Core Functions:
+
+get_files(): Reads GenBank files and aggregates BGC information.
+
+assign_colors_to_domains(): Generates and assigns colors for gene domain annotations.
+
+generate_combined_svg_and_html(): Creates combined SVG images and an interactive HTML visualization.
+
+generate_combined_product_bar_charts(): Produces bar charts for product distributions.
+
+save_fasta(): Outputs protein sequences in FASTA format.
+
+write_metadata(): Writes out summarized and detailed metadata files.
+
+# Example Outputs
+HTML Visualization:
+An interactive web page (BGCs_interactive.html) will be generated in the output folder, showing each BGC with interactive annotations and gene track details.
+
+SVG Files:
+Combined SVG files (e.g., combined_BGCs_1.svg, combined_BGCs_2.svg, etc.) are created to visually represent clusters.
+
+Bar Charts:
+A bar chart HTML file (product_distribution_combined.html) summarizes the distribution of candidate products by taxonomic levels.
+
+FASTA & Metadata:
+If enabled, the script outputs a FASTA file (proteins_with_CAL_domain.fasta) and metadata files with detailed information regarding the BGCs.
+
+# License
+
+MIT License
+
+# Contact
+
+For questions or feedback, please contact mattoslmp@gmail.com
+
